@@ -49,7 +49,6 @@ const SignUp = () => {
 
         } catch (error) { 
             toast.error("Something went wrong with registration.")
-            console.log(error)
         }
     }
   return (

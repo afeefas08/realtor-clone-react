@@ -3,12 +3,14 @@ import { initializeApp } from "firebase/app";
 import {getFirestore} from "firebase/firestore"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-const apiKeys = import.meta.env.VITE_GOOGLE_API_KEY;
+const firebaseApiKey = import.meta.env.VITE_GOOGLE_API_KEY;
+
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
 
-  apiKey: apiKeys,
+  apiKey: firebaseApiKey,
   authDomain: "realtor-clone-fe872.firebaseapp.com",
   projectId: "realtor-clone-fe872",
   storageBucket: "realtor-clone-fe872.appspot.com",
