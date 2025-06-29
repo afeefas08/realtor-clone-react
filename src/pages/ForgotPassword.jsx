@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router";
 import OAuth from "../components/OAuth";
+import { fetchSignInMethodsForEmail, getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("")
@@ -8,6 +10,27 @@ const ForgotPassword = () => {
     function handleChange(e){
         setEmail(e.target.value);
     }
+    
+    async function handleSubmit(e){
+        e.preventDefault()
+        try{
+            const auth = getAuth()
+
+            const methods = await fetchSignInMethodsForEmail(auth, email);
+
+            if (methods.length === 0) {
+                // no sign‑in methods → email not registered
+                toast.error("No account found with that email address.");
+                return;
+            }
+            await sendPasswordResetEmail(auth, email)
+            toast.success("Email was sent")
+        }
+        catch(error){
+            toast.error("could not sent reset password")
+        }
+    }
+
   return (
     <section>
         <h1 className="text-3xl text-center mt-6 font-bold">Forgot Password</h1>
@@ -18,7 +41,7 @@ const ForgotPassword = () => {
                 />
             </div>
             <div className="w-full md:w-[67%] lg:w-[40%] lg:ml-20">
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input type="email"
                     id="email" 
                     value={email} 
